@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { FooterLink, InputField, SelectField, CountrySelectField } from '@/components/forms'
-import { INVESTMENT_GOALS, RISK_TOLERANCE_OPTIONS, PREFERRED_INDUSTRIES } from '@/lib/contants'
+import { INVESTMENT_GOALS, RISK_TOLERANCE_OPTIONS, PREFERRED_INDUSTRIES } from '@/lib/constants'
 import { signUpWithEmail } from '@/lib/actions/auth.actions'
 import { toast } from 'sonner'
 

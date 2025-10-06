@@ -8,7 +8,7 @@ import { INVESTMENT_GOALS, RISK_TOLERANCE_OPTIONS, PREFERRED_INDUSTRIES } from '
 
 const SignUpPage = () => {
 
-  const router = useRouter()
+  const router = useRouter();
   const {
     register,
     handleSubmit,

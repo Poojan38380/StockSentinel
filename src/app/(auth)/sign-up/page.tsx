@@ -3,7 +3,8 @@ import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
-import { FooterLink, InputField } from '@/components/forms'
+import { FooterLink, InputField, SelectField, CountrySelectField } from '@/components/forms'
+import { INVESTMENT_GOALS, RISK_TOLERANCE_OPTIONS, PREFERRED_INDUSTRIES } from '@/lib/contants'
 
 const SignUpPage = () => {
 
@@ -45,7 +46,7 @@ const SignUpPage = () => {
         <InputField
           name="fullName"
           label="Full Name"
-          placeholder="Poojan Goyani"
+          placeholder="John Doe"
           register={register}
           error={errors.fullName}
           validation={{ required: 'Full name is required', minLength: 2 }}
@@ -54,7 +55,7 @@ const SignUpPage = () => {
         <InputField
           name="email"
           label="Email"
-          placeholder="poojangoyani@gmail.com"
+          placeholder="contact@jsmastery.com"
           register={register}
           error={errors.email}
           validation={{ required: 'Email name is required', pattern: /^\w+@\w+\.\w+$/, message: 'Email address is required' }}
@@ -70,15 +71,50 @@ const SignUpPage = () => {
           validation={{ required: 'Password is required', minLength: 8 }}
         />
 
+        <CountrySelectField
+          name="country"
+          label="Country"
+          control={control}
+          error={errors.country}
+          required
+        />
 
+        <SelectField
+          name="investmentGoals"
+          label="Investment Goals"
+          placeholder="Select your investment goal"
+          options={INVESTMENT_GOALS}
+          control={control}
+          error={errors.investmentGoals}
+          required
+        />
+
+        <SelectField
+          name="riskTolerance"
+          label="Risk Tolerance"
+          placeholder="Select your risk level"
+          options={RISK_TOLERANCE_OPTIONS}
+          control={control}
+          error={errors.riskTolerance}
+          required
+        />
+
+        <SelectField
+          name="preferredIndustry"
+          label="Preferred Industry"
+          placeholder="Select your preferred industry"
+          options={PREFERRED_INDUSTRIES}
+          control={control}
+          error={errors.preferredIndustry}
+          required
+        />
 
         <Button type="submit" disabled={isSubmitting} className="yellow-btn w-full mt-5">
           {isSubmitting ? 'Creating Account' : 'Start Your Investing Journey'}
         </Button>
 
         <FooterLink text="Already have an account?" linkText="Sign in" href="/sign-in" />
-
-      </form>
+      </form> 
 
     </>
   )

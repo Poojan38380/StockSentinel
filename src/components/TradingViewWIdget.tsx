@@ -1,6 +1,6 @@
 "use client";
 import { cn } from '@/lib/utils';
-import React from 'react';
+import React, { memo } from 'react';
 import useTradingViewWidget from '@/hooks/useTradingViewWidget';
 
 
@@ -26,4 +26,4 @@ const TradingViewWidget = ({ title, scriptUrl, config, height, className }: Trad
     );
 }
 
-export default TradingViewWidget;
+export default memo(TradingViewWidget);

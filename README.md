@@ -88,6 +88,21 @@ Stock Sentinel is a **full-stack stock market intelligence platform** that empow
   <p><em>Personalized watchlist with live prices and news</em></p>
 </div>
 
+<div align="center">
+  <img src="public/assets/images/search-feature-demo.png" alt="Stock Sentinel - Smart Search Feature" width="800"/>
+  <p><em>Lightning-fast stock search with keyboard shortcuts (Cmd/Ctrl+K)</em></p>
+</div>
+
+<div align="center">
+  <img src="public/assets/images/stock-research-page-demo.png" alt="Stock Sentinel - Stock Analysis Page" width="800"/>
+  <p><em>Comprehensive stock analysis with TradingView charts and company data</em></p>
+</div>
+
+<div align="center">
+  <img src="public/assets/images/watchlist-demo.png" alt="Stock Sentinel - Watchlist Management" width="800"/>
+  <p><em>Smart watchlist with real-time prices, market cap, P/E ratios, and news</em></p>
+</div>
+
 ## 🛠️ Technical Stack I Used
 
 ### Frontend Architecture

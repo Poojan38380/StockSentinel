@@ -19,10 +19,31 @@ const WatchlistButton = ({
     return added ? "Remove from Watchlist" : "Add to Watchlist";
   }, [added, type]);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     const next = !added;
     setAdded(next);
     onWatchlistChange?.(symbol, next);
+
+    try {
+      const endpoint = "/api/watchlist";
+      if (next) {
+        await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ symbol, company: symbol }),
+        });
+      } else {
+        await fetch(endpoint, {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ symbol }),
+        });
+      }
+    } catch {
+      // revert on failure
+      setAdded(!next);
+      onWatchlistChange?.(symbol, !next);
+    }
   };
 
   if (type === "icon") {

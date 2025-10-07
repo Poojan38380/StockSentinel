@@ -1,7 +1,7 @@
 # 📈 Signalist - Stock Market Intelligence Platform
 
 [![GitHub stars](https://img.shields.io/github/stars/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel)
-[![GitHub forks](https://img.shields.io/github/forks/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel)
+[![GitHub forks](https://img.shields.io/github/forks/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel/issues)
 [![GitHub issues](https://img.shields.io/github/issues/Poojan38380/StockSentinel)](https://github.com/Poojan38380/StockSentinel/issues)
 [![License](https://img.shields.io/github/license/Poojan38380/StockSentinel)](https://github.com/Poojan38380/StockSentinel/blob/main/LICENSE)
 [![Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-000000?logo=vercel)](https://stock-sentinel-umber.vercel.app/)
@@ -337,7 +337,7 @@ I welcome contributions! Here's how you can help:
 2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
 3. **Commit your changes**: `git commit -m 'Add amazing feature'`
 4. **Push to the branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
+5. **Open a Pull Request`
 
 ### Ideas for Contributions
 - 🎯 **Price Alert System** - Real-time price notifications
@@ -416,6 +416,7 @@ If you find this project helpful:
 Have questions or suggestions? Reach out:
 
 - **GitHub**: [@Poojan38380](https://github.com/Poojan38380)
+- **Email**: poojangoyani@gmail.com
 - **Project Link**: [https://github.com/Poojan38380/StockSentinel](https://github.com/Poojan38380/StockSentinel)
 - **Live Demo**: [https://stock-sentinel-umber.vercel.app](https://stock-sentinel-umber.vercel.app)
 

@@ -42,9 +42,9 @@ export async function addToWatchlist(symbol: string, company: string): Promise<{
     await connectToDatabase();
     try {
       await Watchlist.create({ userId, symbol: upperSymbol, company: cleanCompany });
-    } catch (e: any) {
+    } catch (e: unknown) {
       // Ignore duplicate key errors due to unique index
-      if (e && typeof e === 'object' && (e.code === 11000 || e.code === '11000')) {
+      if (e && typeof e === 'object' && (e as { code?: number }).code === 11000) {
         return { ok: true };
       }
       throw e;

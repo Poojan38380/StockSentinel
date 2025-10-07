@@ -7,6 +7,7 @@ import React, { useMemo, useState } from "react";
 
 const WatchlistButton = ({
   symbol,
+  company,
   isInWatchlist,
   showTrashIcon = false,
   type = "button",
@@ -30,7 +31,7 @@ const WatchlistButton = ({
         await fetch(endpoint, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ symbol, company: symbol }),
+          body: JSON.stringify({ symbol, company }),
         });
       } else {
         await fetch(endpoint, {

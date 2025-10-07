@@ -14,8 +14,7 @@ export async function getWatchlistByUserId(): Promise<StockWithData[]> {
 
     await connectToDatabase();
     
-    const items = await Watchlist.find({ userId }).sort({ addedAt: -1 }).lean();
-    
+    const items = await Watchlist.find({ userId }).sort({ addedAt: -1 }).lean();    
     return items.map((item) => ({
       userId: item.userId,
       symbol: item.symbol,

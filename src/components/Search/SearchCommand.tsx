@@ -88,11 +88,15 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
     setLoadingStocks(prev => new Set(prev).add(symbol));
 
     try {
+      // Find the stock to get the actual company name
+      const stock = stocks.find(s => s.symbol === symbol);
+      const companyName = stock?.name || symbol;
+
       const endpoint = "/api/watchlist";
       const response = await fetch(endpoint, {
         method: isAdded ? "POST" : "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ symbol, company: symbol }),
+        body: JSON.stringify({ symbol, company: companyName }),
       });
 
       if (!response.ok) {

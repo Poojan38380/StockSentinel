@@ -7,13 +7,14 @@ import {Loader2,  Star,  TrendingUp} from "lucide-react";
 import Link from "next/link";
 import {searchStocks} from "@/lib/actions/finnhub.actions";
 import { useDebounce } from "@/hooks/useDebounce";
-import Image from "next/image";
+import { toast } from "sonner";
 
 export default function SearchCommand({ renderAs = 'button', label = 'Add stock', initialStocks }: SearchCommandProps) {
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
   const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>(initialStocks);
+  const [loadingStocks, setLoadingStocks] = useState<Set<string>>(new Set());
 
   const isSearchMode = !!searchTerm.trim();
   const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10);
@@ -47,12 +48,52 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
 
   useEffect(() => {
     debouncedSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   const handleSelectStock = () => {
     setOpen(false);
     setSearchTerm("");
     setStocks(initialStocks);
+  }
+
+  const handleWatchlistChange = async (symbol: string, isAdded: boolean) => {
+    // Add to loading set
+    setLoadingStocks(prev => new Set(prev).add(symbol));
+
+    try {
+      const endpoint = "/api/watchlist";
+      const response = await fetch(endpoint, {
+        method: isAdded ? "POST" : "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symbol, company: symbol }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update watchlist");
+      }
+
+      // Update the stocks state
+      setStocks(prevStocks => 
+        prevStocks.map(stock => 
+          stock.symbol === symbol 
+            ? { ...stock, isInWatchlist: isAdded }
+            : stock
+        )
+      );
+
+      toast.success(isAdded ? `Added ${symbol} to watchlist` : `Removed ${symbol} from watchlist`);
+    } catch (error) {
+      console.error("Error updating watchlist:", error);
+      toast.error("Failed to update watchlist");
+    } finally {
+      // Remove from loading set
+      setLoadingStocks(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(symbol);
+        return newSet;
+      });
+    }
   }
 
   return (
@@ -101,8 +142,22 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
                         </div>
                       </div>
                     </Link>
-                    <Button className="rounded-full h-8 w-8 mr-2 cursor-pointer bg-gray-700 hover:bg-gray-800">
-                      <Star className="text-white fill-white" />
+                    <Button 
+                      className="rounded-full h-8 w-8 mr-2 cursor-pointer bg-gray-700 hover:bg-gray-800"
+                      onClick={() => handleWatchlistChange(stock.symbol, !stock.isInWatchlist)}
+                      disabled={loadingStocks.has(stock.symbol)}
+                    >
+                      {loadingStocks.has(stock.symbol) ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-white" />
+                      ) : (
+                        <Star 
+                          className={`h-4 w-4 ${
+                            stock.isInWatchlist 
+                              ? 'text-yellow-400 fill-yellow-400' 
+                              : 'text-white fill-white'
+                          }`} 
+                        />
+                      )}
                     </Button>
                   </li>
               ))}

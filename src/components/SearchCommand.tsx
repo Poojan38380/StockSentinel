@@ -14,6 +14,7 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
   const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>(initialStocks);
+  const [watchlistSymbols, setWatchlistSymbols] = useState<Set<string>>(new Set());
   const [loadingStocks, setLoadingStocks] = useState<Set<string>>(new Set());
 
   const isSearchMode = !!searchTerm.trim();
@@ -30,13 +31,37 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
+  // Load user's watchlist symbols on mount
+  useEffect(() => {
+    const loadWatchlist = async () => {
+      try {
+        const res = await fetch('/api/watchlist', { method: 'GET' });
+        if (!res.ok) return;
+        const data = (await res.json()) as { ok?: boolean; symbols?: string[] };
+        const set = new Set((data.symbols || []).map((s) => (s || '').toUpperCase()));
+        setWatchlistSymbols(set);
+        // Ensure currently displayed stocks reflect latest watchlist
+        setStocks((prev) =>
+          (prev || []).map((s) => ({ ...s, isInWatchlist: set.has((s.symbol || '').toUpperCase()) }))
+        );
+      } catch {
+        // ignore
+      }
+    };
+    loadWatchlist();
+  }, [])
+
   const handleSearch = async () => {
     if(!isSearchMode) return setStocks(initialStocks);
 
     setLoading(true)
     try {
         const results = await searchStocks(searchTerm.trim());
-        setStocks(results);
+        // Apply watchlist status based on loaded symbols
+        setStocks(results.map((s) => ({
+          ...s,
+          isInWatchlist: watchlistSymbols.has((s.symbol || '').toUpperCase()),
+        })));
     } catch {
       setStocks([])
     } finally {
@@ -81,6 +106,14 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
             : stock
         )
       );
+
+      // Update local watchlist symbols set
+      setWatchlistSymbols((prev) => {
+        const next = new Set(prev);
+        const up = (symbol || '').toUpperCase();
+        if (isAdded) next.add(up); else next.delete(up);
+        return next;
+      });
 
       toast.success(isAdded ? `Added ${symbol} to watchlist` : `Removed ${symbol} from watchlist`);
     } catch (error) {

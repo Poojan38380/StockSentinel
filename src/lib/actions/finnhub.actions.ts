@@ -210,3 +210,47 @@ export const searchStocks = cache(async (query?: string): Promise<StockWithWatch
     return [];
   }
 });
+
+// Fetch stock quote (current price, change percent)
+export async function getStockQuote(symbol: string): Promise<QuoteData> {
+  try {
+    const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
+    if (!token) {
+      console.error('FINNHUB API key is not configured');
+      return {};
+    }
+
+    const url = `${FINNHUB_BASE_URL}/quote?symbol=${encodeURIComponent(symbol.toUpperCase())}&token=${token}`;
+    const quote = await fetchJSON<{ c?: number; dp?: number }>(url, 60); // Revalidate every 60 seconds
+    
+    return {
+      c: quote?.c, // current price
+      dp: quote?.dp, // change percent
+    };
+  } catch (err) {
+    console.error('Error fetching stock quote for', symbol, err);
+    return {};
+  }
+}
+
+// Fetch company basic financials (market cap, P/E ratio)
+export async function getStockFinancials(symbol: string): Promise<{ marketCap?: number; peRatio?: number }> {
+  try {
+    const token = process.env.FINNHUB_API_KEY ?? NEXT_PUBLIC_FINNHUB_API_KEY;
+    if (!token) {
+      console.error('FINNHUB API key is not configured');
+      return {};
+    }
+
+    const url = `${FINNHUB_BASE_URL}/stock/metric?symbol=${encodeURIComponent(symbol.toUpperCase())}&metric=all&token=${token}`;
+    const data = await fetchJSON<{ metric?: { marketCapitalization?: number; peBasicExclExtraTTM?: number } }>(url, 3600); // Revalidate every hour
+    
+    return {
+      marketCap: data?.metric?.marketCapitalization,
+      peRatio: data?.metric?.peBasicExclExtraTTM,
+    };
+  } catch (err) {
+    console.error('Error fetching stock financials for', symbol, err);
+    return {};
+  }
+}

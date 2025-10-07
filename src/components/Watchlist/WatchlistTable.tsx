@@ -74,12 +74,16 @@ const WatchlistTable = ({ initialWatchlist }: WatchlistTableProps) => {
           <TableHead className="w-[80px]">Action</TableHead>
           <TableHead>Company</TableHead>
           <TableHead>Symbol</TableHead>
+          <TableHead className="">Price</TableHead>
+          <TableHead className="">Change</TableHead>
+          <TableHead className="">Market Cap</TableHead>
+          <TableHead className="">P/E Ratio</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {watchlist.map((stock) => (
           <TableRow key={stock.symbol}>
-            <TableCell>
+            <TableCell className="border-r">
               <StarButton
                 symbol={stock.symbol}
                 isInWatchlist={true}
@@ -87,8 +91,26 @@ const WatchlistTable = ({ initialWatchlist }: WatchlistTableProps) => {
                 handleWatchlistChange={handleWatchlistChange}
               />
             </TableCell>
-            <TableCell className="font-medium">{stock.company}</TableCell>
-            <TableCell>{stock.symbol}</TableCell>
+            <TableCell className="font-medium border-r">{stock.company}</TableCell>
+            <TableCell className="border-r">{stock.symbol}</TableCell>
+            <TableCell className=" font-semibold border-r">
+              {stock.priceFormatted || '-'}
+            </TableCell>
+            <TableCell className={` font-medium border-r ${
+              stock.changePercent !== undefined && stock.changePercent !== null
+                ? stock.changePercent >= 0 
+                  ? 'text-green-500' 
+                  : 'text-red-500'
+                : ''
+            }`}>
+              {stock.changeFormatted || '-'}
+            </TableCell>
+            <TableCell className="border-r">
+              {stock.marketCap || '-'}
+            </TableCell>
+            <TableCell className="">
+              {stock.peRatio || '-'}
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

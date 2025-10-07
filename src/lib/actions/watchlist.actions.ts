@@ -4,6 +4,7 @@ import { connectToDatabase } from '@/database/mongoose';
 import { Watchlist } from '@/database/models/watchlist.model';
 import { auth } from '@/lib/better-auth/auth';
 import { headers } from 'next/headers';
+import { getStockQuote, getStockFinancials } from '@/lib/actions/finnhub.actions';
 
 export async function getWatchlistByUserId(): Promise<StockWithData[]> {
   try {
@@ -14,13 +15,73 @@ export async function getWatchlistByUserId(): Promise<StockWithData[]> {
 
     await connectToDatabase();
     
-    const items = await Watchlist.find({ userId }).sort({ addedAt: -1 }).lean();    
-    return items.map((item) => ({
-      userId: item.userId,
-      symbol: item.symbol,
-      company: item.company,
-      addedAt: item.addedAt,
-    }));
+    const items = await Watchlist.find({ userId }).sort({ addedAt: -1 }).lean();
+    
+    // Fetch quote and financial data for all stocks in parallel
+    const enrichedItems = await Promise.all(
+      items.map(async (item) => {
+        try {
+          const [quote, financials] = await Promise.all([
+            getStockQuote(item.symbol),
+            getStockFinancials(item.symbol),
+          ]);
+
+          // Format the data
+          const currentPrice = quote?.c;
+          const changePercent = quote?.dp;
+          const marketCap = financials?.marketCap;
+          const peRatio = financials?.peRatio;
+
+          // Format price
+          const priceFormatted = currentPrice !== undefined && currentPrice !== null 
+            ? `$${currentPrice.toFixed(2)}` 
+            : '-';
+
+          // Format change percent with color indicator
+          const changeFormatted = changePercent !== undefined && changePercent !== null 
+            ? `${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%` 
+            : '-';
+
+          // Format market cap (Finnhub returns in millions, convert to B/T)
+          const marketCapFormatted = marketCap !== undefined && marketCap !== null
+            ? marketCap >= 1_000_000 
+              ? `$${(marketCap / 1_000_000).toFixed(2)}T`
+              : marketCap >= 1_000
+                ? `$${(marketCap / 1_000).toFixed(2)}B`
+                : `$${marketCap.toFixed(2)}M`
+            : '-';
+
+          // Format P/E ratio
+          const peRatioFormatted = peRatio !== undefined && peRatio !== null 
+            ? peRatio.toFixed(2) 
+            : '-';
+
+          return {
+            userId: item.userId,
+            symbol: item.symbol,
+            company: item.company,
+            addedAt: item.addedAt,
+            currentPrice,
+            changePercent,
+            priceFormatted,
+            changeFormatted,
+            marketCap: marketCapFormatted,
+            peRatio: peRatioFormatted,
+          };
+        } catch (error) {
+          console.error(`Error enriching data for ${item.symbol}:`, error);
+          // Return basic data if enrichment fails
+          return {
+            userId: item.userId,
+            symbol: item.symbol,
+            company: item.company,
+            addedAt: item.addedAt,
+          };
+        }
+      })
+    );
+
+    return enrichedItems;
   } catch (err) {
     console.error('getWatchlistByUserId error:', err);
     return [];

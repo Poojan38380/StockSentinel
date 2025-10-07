@@ -1,4 +1,7 @@
-# 📈 Stock Sentinel - Stock Market Intelligence Platform
+<div align="center">
+  <img src="public/assets/icons/logo.svg" alt="Stock Sentinel Logo" width="120" height="120">
+  <h1>📈 Stock Sentinel - Stock Market Intelligence Platform</h1>
+</div>
 
 [![GitHub stars](https://img.shields.io/github/stars/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel)
 [![GitHub forks](https://img.shields.io/github/forks/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel/issues)

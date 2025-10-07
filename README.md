@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/assets/icons/logo.svg" alt="Stock Sentinel Logo" width="120" height="120">
+  <img src="public/assets/icons/logo.svg" alt="Stock Sentinel Logo" width="300" height="300">
   <h1>📈 Stock Sentinel - Stock Market Intelligence Platform</h1>
 </div>
 

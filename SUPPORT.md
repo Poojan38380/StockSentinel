@@ -1,6 +1,6 @@
 # 💁 Support & Community
 
-Need help with Signalist? Here's how to get support and connect with the community.
+Need help with Stock Sentinel? Here's how to get support and connect with the community.
 
 ## 📚 Documentation
 

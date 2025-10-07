@@ -1,5 +1,5 @@
 name: 🐛 Bug Report
-description: Report a bug or issue with Signalist
+description: Report a bug or issue with Stock Sentinel
 title: "[Bug]: "
 labels: ["bug", "needs-triage"]
 assignees: []
@@ -18,7 +18,7 @@ body:
       options:
         - label: I have searched existing issues to ensure this bug hasn't been reported
           required: true
-        - label: I am using the latest version of Signalist
+        - label: I am using the latest version of Stock Sentinel
           required: true
         - label: I have read the documentation
           required: true

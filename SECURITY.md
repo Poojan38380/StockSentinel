@@ -1,6 +1,6 @@
 # 🔒 Security Policy
 
-We take the security of Signalist seriously and appreciate the efforts of security researchers and the community to responsibly disclose vulnerabilities.
+We take the security of Stock Sentinel seriously and appreciate the efforts of security researchers and the community to responsibly disclose vulnerabilities.
 
 ## Supported Versions
 
@@ -13,7 +13,7 @@ If you discover a security vulnerability, please DO NOT open a public issue.
 Instead, please report it directly via email:
 
 - Email: poojangoyani@gmail.com
-- Subject: "Security Vulnerability Report - Signalist"
+- Subject: "Security Vulnerability Report - Stock Sentinel"
 
 Please include the following information:
 
@@ -32,4 +32,4 @@ We request that you:
 - Avoid accessing, modifying, or deleting data
 - Avoid disruption of service
 
-Thank you for helping keep Signalist and its users safe! 🙏
+Thank you for helping keep Stock Sentinel and its users safe! 🙏

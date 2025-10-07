@@ -1,5 +1,5 @@
 name: 🚀 Feature Request
-description: Suggest a new feature or enhancement for Signalist
+description: Suggest a new feature or enhancement for Stock Sentinel
 title: "[Feature]: "
 labels: ["enhancement", "needs-triage"]
 assignees: []
@@ -8,7 +8,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for suggesting a new feature! We're excited to hear your ideas for improving Signalist.
+        Thanks for suggesting a new feature! We're excited to hear your ideas for improving Stock Sentinel.
 
   - type: checkboxes
     id: prerequisites

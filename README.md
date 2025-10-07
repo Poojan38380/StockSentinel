@@ -1,4 +1,4 @@
-# 📈 Signalist - Stock Market Intelligence Platform
+# 📈 Stock Sentinel - Stock Market Intelligence Platform
 
 [![GitHub stars](https://img.shields.io/github/stars/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel)
 [![GitHub forks](https://img.shields.io/github/forks/Poojan38380/StockSentinel?style=social)](https://github.com/Poojan38380/StockSentinel/issues)
@@ -11,11 +11,11 @@
 
 > **Your Personal Stock Market Command Center - Track, Analyze, and Stay Ahead**
 
-I created Signalist because I wanted a comprehensive, real-time platform that not only tracks stock prices but provides intelligent insights and personalized alerts. As someone passionate about both finance and technology, I envisioned a tool that would make professional-grade stock analysis accessible to everyone through an intuitive, data-rich interface.
+I created Stock Sentinel because I wanted a comprehensive, real-time platform that not only tracks stock prices but provides intelligent insights and personalized alerts. As someone passionate about both finance and technology, I envisioned a tool that would make professional-grade stock analysis accessible to everyone through an intuitive, data-rich interface.
 
 ## ✨ What I Built
 
-Signalist is a **full-stack stock market intelligence platform** that empowers investors with real-time data, advanced analytics, and AI-powered insights. Built with modern web technologies, it combines the power of TradingView's professional charting tools, real-time market data from Finnhub, and intelligent automation to create a seamless investing experience.
+Stock Sentinel is a **full-stack stock market intelligence platform** that empowers investors with real-time data, advanced analytics, and AI-powered insights. Built with modern web technologies, it combines the power of TradingView's professional charting tools, real-time market data from Finnhub, and intelligent automation to create a seamless investing experience.
 
 ### 🎯 Key Features I Implemented
 
@@ -76,12 +76,12 @@ Signalist is a **full-stack stock market intelligence platform** that empowers i
 ## 📸 Screenshots
 
 <div align="center">
-  <img src="public/assets/images/dashboard-preview.png" alt="Signalist - Main Dashboard" width="800"/>
+  <img src="public/assets/images/dashboard-preview.png" alt="Stock Sentinel - Main Dashboard" width="800"/>
   <p><em>Real-time market overview with heatmaps and live data</em></p>
 </div>
 
 <div align="center">
-  <img src="public/assets/images/dashboard.png" alt="Signalist - Watchlist View" width="800"/>
+  <img src="public/assets/images/dashboard.png" alt="Stock Sentinel - Watchlist View" width="800"/>
   <p><em>Personalized watchlist with live prices and news</em></p>
 </div>
 
@@ -123,7 +123,7 @@ Signalist is a **full-stack stock market intelligence platform** that empowers i
 
 ## 🎨 Design Philosophy
 
-I designed Signalist with **professional traders and casual investors** in mind:
+I designed Stock Sentinel with **professional traders and casual investors** in mind:
 
 - **Data-First Design**: Information-dense layouts without overwhelming users
 - **Real-Time Updates**: Live data that keeps you informed
@@ -145,7 +145,7 @@ I designed Signalist with **professional traders and casual investors** in mind:
 ```bash
 # Clone the repository
 git clone https://github.com/Poojan38380/StockSentinel.git
-cd signalist
+cd StockSentinel
 
 # Install dependencies
 npm install
@@ -195,7 +195,7 @@ npm start
 
 ## 🎮 How to Use
 
-### Getting Started with Signalist
+### Getting Started with Stock Sentinel
 
 1. **Sign Up**: Create an account with personalized investment preferences
 2. **Explore Dashboard**: View live market data, heatmaps, and top stories
@@ -212,7 +212,7 @@ npm start
 ## 🏗️ Project Structure
 
 ```
-signalist/
+StockSentinel/
 ├── src/
 │   ├── app/                      # Next.js App Router
 │   │   ├── (auth)/              # Authentication pages

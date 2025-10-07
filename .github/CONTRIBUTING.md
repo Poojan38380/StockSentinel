@@ -1,6 +1,6 @@
-# 🤝 Contributing to Signalist
+# 🤝 Contributing to Stock Sentinel
 
-First off, thank you for considering contributing to Signalist! It's people like you that make Signalist such a great tool for the trading community. 🎉
+First off, thank you for considering contributing to Stock Sentinel! It's people like you that make Stock Sentinel such a great tool for the trading community. 🎉
 
 ## 📋 Table of Contents
 
@@ -24,10 +24,10 @@ This project and everyone participating in it is governed by our [Code of Conduc
 - 🐛 **Report bugs** - Found something broken? Let us know!
 - 💡 **Suggest features** - Have an idea? We'd love to hear it!
 - 📝 **Improve documentation** - Help others understand the project better
-- 🎨 **Design improvements** - Make Signalist more beautiful and user-friendly
+- 🎨 **Design improvements** - Make Stock Sentinel more beautiful and user-friendly
 - 🔧 **Code contributions** - Fix bugs or implement new features
 - 🧪 **Write tests** - Help us maintain code quality
-- 🌍 **Translations** - Make Signalist accessible to more people
+- 🌍 **Translations** - Make Stock Sentinel accessible to more people
 
 ### Before You Start
 
@@ -51,7 +51,7 @@ This project and everyone participating in it is governed by our [Code of Conduc
 # 1. Fork the repository on GitHub
 # 2. Clone your fork
 git clone https://github.com/YOUR_USERNAME/StockSentinel.git
-cd signalist
+cd StockSentinel
 
 # 3. Add upstream remote
 git remote add upstream https://github.com/Poojan38380/StockSentinel.git
@@ -100,7 +100,7 @@ Use our [Bug Report Template](.github/ISSUE_TEMPLATE/bug_report.yml)
 We love new ideas! Before suggesting:
 1. **Check the roadmap** - It might already be planned
 2. **Search existing feature requests** - Others might want the same thing
-3. **Consider if it fits the project vision** - Keep Signalist focused
+3. **Consider if it fits the project vision** - Keep Stock Sentinel focused
 
 When suggesting features, include:
 - Clear problem statement
@@ -399,7 +399,7 @@ Contributors are recognized in:
 
 ## 💖 Thank You!
 
-Your contributions make Signalist better for everyone. Whether you're fixing typos, adding features, or helping others, your work is appreciated!
+Your contributions make Stock Sentinel better for everyone. Whether you're fixing typos, adding features, or helping others, your work is appreciated!
 
 **Happy Coding! 🚀**
 

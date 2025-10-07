@@ -78,29 +78,42 @@ Stock Sentinel is a **full-stack stock market intelligence platform** that empow
 
 ## 📸 Screenshots
 
+### 🏠 **Main Dashboard**
 <div align="center">
   <img src="public/assets/images/dashboard-preview.png" alt="Stock Sentinel - Main Dashboard" width="800"/>
   <p><em>Real-time market overview with heatmaps and live data</em></p>
 </div>
 
+### 📋 **Watchlist Management**
 <div align="center">
-  <img src="public/assets/images/dashboard.png" alt="Stock Sentinel - Watchlist View" width="800"/>
-  <p><em>Personalized watchlist with live prices and news</em></p>
+  <img src="public/assets/images/watchlist-demo.png" alt="Stock Sentinel - Watchlist Management" width="800"/>
+  <p><em>Smart watchlist with real-time prices, market cap, P/E ratios, and news</em></p>
 </div>
 
+### 🔍 **Smart Search**
 <div align="center">
   <img src="public/assets/images/search-feature-demo.png" alt="Stock Sentinel - Smart Search Feature" width="800"/>
   <p><em>Lightning-fast stock search with keyboard shortcuts (Cmd/Ctrl+K)</em></p>
 </div>
 
+### 📊 **Stock Analysis**
 <div align="center">
   <img src="public/assets/images/stock-research-page-demo.png" alt="Stock Sentinel - Stock Analysis Page" width="800"/>
   <p><em>Comprehensive stock analysis with TradingView charts and company data</em></p>
 </div>
 
+### 📧 **AI-Powered Email Automation**
+
+#### Welcome Email
 <div align="center">
-  <img src="public/assets/images/watchlist-demo.png" alt="Stock Sentinel - Watchlist Management" width="800"/>
-  <p><em>Smart watchlist with real-time prices, market cap, P/E ratios, and news</em></p>
+  <img src="public/assets/images/signup-email-demo.png" alt="Stock Sentinel - Personalized Welcome Email" width="600"/>
+  <p><em>AI-generated personalized welcome emails based on your investment profile</em></p>
+</div>
+
+#### Daily News Summary
+<div align="center">
+  <img src="public/assets/images/watchlist-news-email-demo.png" alt="Stock Sentinel - Daily News Summary Email" width="600"/>
+  <p><em>Daily AI-curated market news summaries delivered to your inbox</em></p>
 </div>
 
 ## 🛠️ Technical Stack I Used

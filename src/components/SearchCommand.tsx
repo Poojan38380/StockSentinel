@@ -3,16 +3,19 @@
 import { useEffect, useState } from "react"
 import { CommandDialog, CommandEmpty, CommandInput, CommandList } from "@/components/ui/command"
 import {Button} from "@/components/ui/button";
-import {Loader2,  TrendingUp} from "lucide-react";
+import {Loader2,  Star,  TrendingUp} from "lucide-react";
 import Link from "next/link";
 import {searchStocks} from "@/lib/actions/finnhub.actions";
 import { useDebounce } from "@/hooks/useDebounce";
+import { toast } from "sonner";
 
 export default function SearchCommand({ renderAs = 'button', label = 'Add stock', initialStocks }: SearchCommandProps) {
   const [open, setOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [loading, setLoading] = useState(false)
   const [stocks, setStocks] = useState<StockWithWatchlistStatus[]>(initialStocks);
+  const [watchlistSymbols, setWatchlistSymbols] = useState<Set<string>>(new Set());
+  const [loadingStocks, setLoadingStocks] = useState<Set<string>>(new Set());
 
   const isSearchMode = !!searchTerm.trim();
   const displayStocks = isSearchMode ? stocks : stocks?.slice(0, 10);
@@ -28,13 +31,37 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
     return () => window.removeEventListener("keydown", onKeyDown)
   }, [])
 
+  // Load user's watchlist symbols on mount
+  useEffect(() => {
+    const loadWatchlist = async () => {
+      try {
+        const res = await fetch('/api/watchlist', { method: 'GET' });
+        if (!res.ok) return;
+        const data = (await res.json()) as { ok?: boolean; symbols?: string[] };
+        const set = new Set((data.symbols || []).map((s) => (s || '').toUpperCase()));
+        setWatchlistSymbols(set);
+        // Ensure currently displayed stocks reflect latest watchlist
+        setStocks((prev) =>
+          (prev || []).map((s) => ({ ...s, isInWatchlist: set.has((s.symbol || '').toUpperCase()) }))
+        );
+      } catch {
+        // ignore
+      }
+    };
+    loadWatchlist();
+  }, [])
+
   const handleSearch = async () => {
     if(!isSearchMode) return setStocks(initialStocks);
 
     setLoading(true)
     try {
         const results = await searchStocks(searchTerm.trim());
-        setStocks(results);
+        // Apply watchlist status based on loaded symbols
+        setStocks(results.map((s) => ({
+          ...s,
+          isInWatchlist: watchlistSymbols.has((s.symbol || '').toUpperCase()),
+        })));
     } catch {
       setStocks([])
     } finally {
@@ -46,12 +73,60 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
 
   useEffect(() => {
     debouncedSearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm]);
 
   const handleSelectStock = () => {
     setOpen(false);
     setSearchTerm("");
     setStocks(initialStocks);
+  }
+
+  const handleWatchlistChange = async (symbol: string, isAdded: boolean) => {
+    // Add to loading set
+    setLoadingStocks(prev => new Set(prev).add(symbol));
+
+    try {
+      const endpoint = "/api/watchlist";
+      const response = await fetch(endpoint, {
+        method: isAdded ? "POST" : "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ symbol, company: symbol }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update watchlist");
+      }
+
+      // Update the stocks state
+      setStocks(prevStocks => 
+        prevStocks.map(stock => 
+          stock.symbol === symbol 
+            ? { ...stock, isInWatchlist: isAdded }
+            : stock
+        )
+      );
+
+      // Update local watchlist symbols set
+      setWatchlistSymbols((prev) => {
+        const next = new Set(prev);
+        const up = (symbol || '').toUpperCase();
+        if (isAdded) next.add(up); else next.delete(up);
+        return next;
+      });
+
+      toast.success(isAdded ? `Added ${symbol} to watchlist` : `Removed ${symbol} from watchlist`);
+    } catch (error) {
+      console.error("Error updating watchlist:", error);
+      toast.error("Failed to update watchlist");
+    } finally {
+      // Remove from loading set
+      setLoadingStocks(prev => {
+        const newSet = new Set(prev);
+        newSet.delete(symbol);
+        return newSet;
+      });
+    }
   }
 
   return (
@@ -84,11 +159,11 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
                 {` `}({displayStocks?.length || 0})
               </div>
               {displayStocks?.map((stock) => (
-                  <li key={stock.symbol} className="search-item">
+                  <li key={stock.symbol} className="search-item flex items-center justify-between border-b border-gray-600 last:border-b-0 ">
                     <Link
                         href={`/stocks/${stock.symbol}`}
                         onClick={handleSelectStock}
-                        className="search-item-link"
+                        className="search-item-link "
                     >
                       <TrendingUp className="h-4 w-4 text-gray-500" />
                       <div  className="flex-1">
@@ -99,8 +174,24 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
                           {stock.symbol} | {stock.exchange } | {stock.type}
                         </div>
                       </div>
-                    {/*<Star />*/}
                     </Link>
+                    <Button 
+                      className="rounded-full h-8 w-8 mr-2 cursor-pointer bg-gray-700 hover:bg-gray-800"
+                      onClick={() => handleWatchlistChange(stock.symbol, !stock.isInWatchlist)}
+                      disabled={loadingStocks.has(stock.symbol)}
+                    >
+                      {loadingStocks.has(stock.symbol) ? (
+                        <Loader2 className="h-4 w-4 animate-spin text-white" />
+                      ) : (
+                        <Star 
+                          className={`h-4 w-4 ${
+                            stock.isInWatchlist 
+                              ? 'text-yellow-400 fill-yellow-400' 
+                              : 'text-white fill-white'
+                          }`} 
+                        />
+                      )}
+                    </Button>
                   </li>
               ))}
             </ul>

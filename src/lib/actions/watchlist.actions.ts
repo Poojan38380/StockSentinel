@@ -5,6 +5,46 @@ import { Watchlist } from '@/database/models/watchlist.model';
 import { auth } from '@/lib/better-auth/auth';
 import { headers } from 'next/headers';
 
+export async function getWatchlistByUserId(): Promise<StockWithData[]> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    const userId = session?.user?.id;
+    
+    if (!userId) return [];
+
+    await connectToDatabase();
+    
+    const items = await Watchlist.find({ userId }).sort({ addedAt: -1 }).lean();
+    
+    return items.map((item) => ({
+      userId: item.userId,
+      symbol: item.symbol,
+      company: item.company,
+      addedAt: item.addedAt,
+    }));
+  } catch (err) {
+    console.error('getWatchlistByUserId error:', err);
+    return [];
+  }
+}
+
+export async function getWatchlistSymbolsByUserId(): Promise<string[]> {
+  try {
+    const session = await auth.api.getSession({ headers: await headers() });
+    const userId = session?.user?.id;
+    
+    if (!userId) return [];
+
+    await connectToDatabase();
+    
+    const items = await Watchlist.find({ userId }, { symbol: 1 }).lean();
+    return items.map((i) => String(i.symbol));
+  } catch (err) {
+    console.error('getWatchlistSymbolsByUserId error:', err);
+    return [];
+  }
+}
+
 export async function getWatchlistSymbolsByEmail(email: string): Promise<string[]> {
   if (!email) return [];
 

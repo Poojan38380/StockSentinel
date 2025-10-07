@@ -3,11 +3,12 @@
 import { useEffect, useState } from "react"
 import { CommandDialog, CommandEmpty, CommandInput, CommandList } from "@/components/ui/command"
 import {Button} from "@/components/ui/button";
-import {Loader2,  Star,  TrendingUp} from "lucide-react";
+import {Loader2, TrendingUp} from "lucide-react";
 import Link from "next/link";
 import {searchStocks} from "@/lib/actions/finnhub.actions";
 import { useDebounce } from "@/hooks/useDebounce";
 import { toast } from "sonner";
+import StarButton from "../Watchlist/StarButton";
 
 export default function SearchCommand({ renderAs = 'button', label = 'Add stock', initialStocks }: SearchCommandProps) {
   const [open, setOpen] = useState(false)
@@ -175,23 +176,7 @@ export default function SearchCommand({ renderAs = 'button', label = 'Add stock'
                         </div>
                       </div>
                     </Link>
-                    <Button 
-                      className="rounded-full h-8 w-8 mr-2 cursor-pointer bg-gray-700 hover:bg-gray-800"
-                      onClick={() => handleWatchlistChange(stock.symbol, !stock.isInWatchlist)}
-                      disabled={loadingStocks.has(stock.symbol)}
-                    >
-                      {loadingStocks.has(stock.symbol) ? (
-                        <Loader2 className="h-4 w-4 animate-spin text-white" />
-                      ) : (
-                        <Star 
-                          className={`h-4 w-4 ${
-                            stock.isInWatchlist 
-                              ? 'text-yellow-400 fill-yellow-400' 
-                              : 'text-white fill-white'
-                          }`} 
-                        />
-                      )}
-                    </Button>
+                    <StarButton symbol={stock.symbol} isInWatchlist={stock.isInWatchlist} loadingStocks={loadingStocks} handleWatchlistChange={handleWatchlistChange} />
                   </li>
               ))}
             </ul>

@@ -20,7 +20,7 @@ const UserDropdown = ({ user, initialStocks }: {user: User, initialStocks: Stock
 
     const handleSignOut = async () => {
         await signOut();
-        router.push("/sign-in");
+        router.push("/");
     }
 
     return (

@@ -2,14 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import NavItems from "@/components/NavItems";
 import UserDropdown from "@/components/UserDropdown";
+import { Button } from "@/components/ui/button";
 import {searchStocks} from "@/lib/actions/finnhub.actions";
 import {getWatchlistSymbolsByUserId} from "@/lib/actions/watchlist.actions";
 
-const Header = async ({ user }: { user: User }) => {
-    const [stocks, watchlistSymbols] = await Promise.all([
-        searchStocks(),
-        getWatchlistSymbolsByUserId()
-    ]);
+const Header = async ({ user }: { user: User | null }) => {
+    const stocks = await searchStocks();
+    
+    // Only fetch watchlist if user is authenticated
+    let watchlistSymbols: string[] = [];
+    if (user) {
+        watchlistSymbols = await getWatchlistSymbolsByUserId();
+    }
 
     // Create a Set for O(1) lookup performance
     const watchlistSet = new Set(watchlistSymbols);
@@ -30,7 +34,18 @@ const Header = async ({ user }: { user: User }) => {
                     <NavItems initialStocks={initialStocks} />
                 </nav>
 
-                <UserDropdown user={user} initialStocks={initialStocks} />
+                {user ? (
+                    <UserDropdown user={user} initialStocks={initialStocks} />
+                ) : (
+                    <div className="flex items-center gap-4">
+                        <Button asChild variant="ghost" className="text-gray-400 hover:text-yellow-500">
+                            <Link href="/sign-in">Sign In</Link>
+                        </Button>
+                        <Button asChild className="bg-yellow-500 hover:bg-yellow-600 text-yellow-900">
+                            <Link href="/sign-up">Sign Up</Link>
+                        </Button>
+                    </div>
+                )}
             </div>
         </header>
     )
